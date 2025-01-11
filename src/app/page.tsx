@@ -7,9 +7,28 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setMessages((prev) => [...prev, { sender: "user", text: message }]);
     setMessage("");
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Something went wrong");
+      }
+
+      const data = await res.json();
+      setMessages((prev) => [...prev, { sender: "bot", text: data }]);
+    } catch (err: any) {
+      console.log(err.message || "Something went wrong");
+    }
   };
 
   return (
