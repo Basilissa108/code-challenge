@@ -17,7 +17,7 @@ export const ChatInput = ({
 }: ChatInputProps) => {
   const buttonDisabled = value.length === 0;
   return (
-    <div className="fixed bottom-10 w-3/5 max-w-2xl">
+    <div className="w-3/5 max-w-2xl fixed bottom-10">
       <label className="flex flex-col gap-2">
         <span>{label}</span>
         <textarea
