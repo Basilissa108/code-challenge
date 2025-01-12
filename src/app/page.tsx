@@ -2,11 +2,13 @@
 import { useState } from "react";
 import { ChatInput } from "./components/chat-input";
 import { ChatHistory } from "./components/chat-history";
+import { ErrorMessage } from "./components/error-message";
 
 export default function Home() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const handleSubmit = async () => {
     setMessages((prev) => [...prev, { sender: "user", text: message }]);
@@ -23,20 +25,23 @@ export default function Home() {
       });
 
       if (!res.ok) {
-        throw new Error("Something went wrong");
+        setHasError(true);
+        setIsLoading(false);
       }
 
       const data = await res.json();
       setMessages((prev) => [...prev, { sender: "bot", text: data }]);
       setIsLoading(false);
     } catch (err: any) {
-      console.log(err.message || "Something went wrong");
+      setHasError(true);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="h-full w-3/5 max-w-2xl flex flex-col gap-8 row-start-2 items-center">
+    <div className="flex justify-center min-h-screenfont-[family-name:var(--font-geist-sans)]">
+      <main className="h-screen w-3/5 max-w-2xl flex flex-col gap-8 row-start-2 items-center">
+        {hasError && <ErrorMessage />}
         <ChatHistory messages={messages} isLoading={isLoading} />
         <ChatInput
           label="Your message:"
