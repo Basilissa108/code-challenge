@@ -23,7 +23,7 @@ export const ChatHistory = ({ messages, isLoading }: ChatHistoryProps) => (
           <p
             className={`w-4/5 py-2 px-3 rounded-3xl text-white ${
               message.sender === "user"
-                ? "bg-blue-500 rounded-tr-none"
+                ? "bg-highlight rounded-tr-none"
                 : "bg-gray-400 rounded-tl-none"
             }`}
           >

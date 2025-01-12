@@ -42,6 +42,9 @@ export default function Home() {
     <div className="flex justify-center min-h-screenfont-[family-name:var(--font-geist-sans)]">
       <main className="h-screen w-3/5 max-w-2xl flex flex-col gap-8 row-start-2 items-center">
         {hasError && <ErrorMessage />}
+        <h1 className="my-12 text-4xl font-bold text-highlight">
+          What can I help you with?
+        </h1>
         <ChatHistory messages={messages} isLoading={isLoading} />
         <ChatInput
           label="Your message:"
@@ -49,6 +52,7 @@ export default function Home() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onSubmit={handleSubmit}
+          disabled={isLoading}
         />
       </main>
     </div>
