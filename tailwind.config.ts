@@ -12,6 +12,12 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      keyframes: {
+        loading: {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0.3", transform: "translateY(-6px)" },
+        }
+      },
     },
   },
   plugins: [],

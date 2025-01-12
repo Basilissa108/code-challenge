@@ -1,17 +1,19 @@
 import { FaUser, FaRobot } from "react-icons/fa";
+import { LoadingIndicator } from "./loading-indicator";
 
 type ChatHistoryProps = {
   messages: Message[];
+  isLoading: boolean;
 };
 
-export const ChatHistory = ({ messages }: ChatHistoryProps) => (
-  <div className="h-full w-full flex gap-6 flex-col overflow-y-scroll">
+export const ChatHistory = ({ messages, isLoading }: ChatHistoryProps) => (
+  <div className="h-full w-full flex flex-col items-start justify-items-stretch gap-6 overflow-y-scroll">
     {messages.map((message, idx) => {
       const isUser = message.sender === "user";
       return (
         <div
           key={idx}
-          className={`flex gap-4 ${
+          className={`flex gap-4 w-full ${
             isUser
               ? "flex-row-reverse justify-items-end"
               : "justify-items-start"
@@ -30,5 +32,6 @@ export const ChatHistory = ({ messages }: ChatHistoryProps) => (
         </div>
       );
     })}
+    {isLoading && <LoadingIndicator />}
   </div>
 );
