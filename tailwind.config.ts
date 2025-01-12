@@ -9,8 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        highlight: "#2C3D73",
       },
       keyframes: {
         loading: {
