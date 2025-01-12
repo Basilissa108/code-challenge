@@ -7,7 +7,7 @@ type ChatHistoryProps = {
 };
 
 export const ChatHistory = ({ messages, isLoading }: ChatHistoryProps) => (
-  <div className="h-full w-full py-20 flex flex-col items-start justify-items-stretch gap-6 overflow-y-scroll">
+  <div className="h-screen w-full pt-20 pb-48 flex flex-col items-start justify-items-stretch gap-6 overflow-y-scroll">
     {messages.map((message, idx) => {
       const isUser = message.sender === "user";
       return (
