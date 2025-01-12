@@ -21,7 +21,7 @@ export const ChatHistory = ({ messages, isLoading }: ChatHistoryProps) => (
         >
           {isUser ? <FaUser size={28} /> : <FaRobot size={28} />}
           <p
-            className={`w-4/5 py-2 px-3 rounded-3xl text-white ${
+            className={`w-4/5 py-2 px-3 rounded-3xl text-white whitespace-pre-wrap break-words ${
               message.sender === "user"
                 ? "bg-highlight rounded-tr-none"
                 : "bg-gray-400 rounded-tl-none"
