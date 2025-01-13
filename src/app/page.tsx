@@ -14,6 +14,7 @@ export default function Home() {
     setMessages((prev) => [...prev, { sender: "user", text: message }]);
     setMessage("");
     setIsLoading(true);
+    setHasError(false);
 
     try {
       const res = await fetch("/api/chat", {

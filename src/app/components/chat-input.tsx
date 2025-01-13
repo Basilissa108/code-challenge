@@ -20,7 +20,7 @@ export const ChatInput = ({
   const buttonDisabled = value.length === 0 || disabled;
   return (
     <div className="w-screen fixed bottom-0 py-4 flex justify-center bg-white bg-clip-padding backdrop-filter backdrop-blur bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100">
-      <div className="relative w-3/5 max-w-2xl">
+      <div className="relative sm:w-full sm:px-0 sm:max-w-none md:w-3/5 md:max-w-2xl">
         <label className="flex flex-col gap-2">
           <span>{label}</span>
           <textarea
@@ -35,6 +35,7 @@ export const ChatInput = ({
           />
         </label>
         <button
+          aria-label="Send your message"
           type="button"
           onClick={onSubmit}
           disabled={buttonDisabled}
