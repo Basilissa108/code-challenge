@@ -1,5 +1,23 @@
 import { FaUser, FaRobot } from "react-icons/fa";
 import { LoadingIndicator } from "./loading-indicator";
+import ReactMarkdown from "react-markdown";
+import DOMPurify from "dompurify";
+import remarkGfm from "remark-gfm";
+
+type CustomRendererProps = React.AnchorHTMLAttributes<HTMLAnchorElement>;
+
+const customRenderers = {
+  a: ({ href, children }: CustomRendererProps) => (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-highlight underline"
+    >
+      {children}
+    </a>
+  ),
+};
 
 type ChatHistoryProps = {
   messages: Message[];
@@ -7,7 +25,7 @@ type ChatHistoryProps = {
 };
 
 export const ChatHistory = ({ messages, isLoading }: ChatHistoryProps) => (
-  <div className="h-screen w-full pt-20 pb-48 flex flex-col items-start justify-items-stretch gap-6 overflow-y-scroll">
+  <div className="h-screen w-full pb-48 px-4 flex flex-col items-start justify-items-stretch gap-6 overflow-y-scroll">
     {messages.map((message, idx) => {
       const isUser = message.sender === "user";
       return (
@@ -20,15 +38,17 @@ export const ChatHistory = ({ messages, isLoading }: ChatHistoryProps) => (
           }`}
         >
           {isUser ? <FaUser size={28} /> : <FaRobot size={28} />}
-          <p
-            className={`w-4/5 py-2 px-3 rounded-3xl text-white whitespace-pre-wrap break-words ${
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={customRenderers}
+            className={`w-4/5 py-2 px-3 rounded-3xl whitespace-pre-wrap break-words ${
               message.sender === "user"
-                ? "bg-highlight rounded-tr-none"
-                : "bg-gray-400 rounded-tl-none"
+                ? "bg-highlight rounded-tr-none text-white"
+                : "bg-gray-200 rounded-tl-none text-black"
             }`}
           >
-            {message.text}
-          </p>
+            {DOMPurify.sanitize(message.text)}
+          </ReactMarkdown>
         </div>
       );
     })}
