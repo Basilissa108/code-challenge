@@ -1,20 +1,35 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChatInput } from "./components/chat-input";
 import { ChatHistory } from "./components/chat-history";
 import { ErrorMessage } from "./components/error-message";
 
 export default function Home() {
+  const controllerRef = useRef<AbortController>(null);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+      }
+    };
+  }, []);
 
   const handleSubmit = async () => {
     setMessages((prev) => [...prev, { sender: "user", text: message }]);
     setMessage("");
     setIsLoading(true);
     setHasError(false);
+
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+    }
+    controllerRef.current = new AbortController();
+    const signal = controllerRef.current.signal;
 
     try {
       const res = await fetch("/api/chat", {
@@ -23,6 +38,7 @@ export default function Home() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ message }),
+        signal: controllerRef.current.signal,
       });
 
       if (!res.ok) {
@@ -34,8 +50,10 @@ export default function Home() {
       setMessages((prev) => [...prev, { sender: "bot", text: data }]);
       setIsLoading(false);
     } catch (err: any) {
-      setHasError(true);
       setIsLoading(false);
+      if (err.name !== "AbortError") {
+        setHasError(true);
+      }
     }
   };
 
@@ -53,7 +71,10 @@ export default function Home() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onSubmit={handleSubmit}
-          disabled={isLoading}
+          onCancel={() =>
+            controllerRef.current && controllerRef.current.abort()
+          }
+          isLoading={isLoading}
         />
       </main>
     </div>
