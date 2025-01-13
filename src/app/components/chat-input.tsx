@@ -40,7 +40,7 @@ export const ChatInput = ({
                 onSubmit();
               }
             }}
-            className="w-full px-4 py-3 border rounded-2xl bg-transparent resize-none"
+            className="w-full px-4 py-3 border rounded-2xl bg-transparent placeholder-gray-400 resize-none"
           />
         </label>
         {isLoading ? (
