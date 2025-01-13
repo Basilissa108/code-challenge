@@ -35,7 +35,10 @@ export const ChatInput = ({
             value={value}
             onChange={onChange}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) onSubmit();
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                onSubmit();
+              }
             }}
             className="w-full px-4 py-3 border rounded-2xl bg-transparent resize-none"
           />
