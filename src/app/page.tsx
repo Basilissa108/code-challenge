@@ -29,7 +29,6 @@ export default function Home() {
       controllerRef.current.abort();
     }
     controllerRef.current = new AbortController();
-    const signal = controllerRef.current.signal;
 
     try {
       const res = await fetch("/api/chat", {
