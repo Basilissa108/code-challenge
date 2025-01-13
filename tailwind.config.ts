@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        highlight: "#2C3D73"
+        highlight: "#004EFF"
       },
       keyframes: {
         loading: {
